@@ -28,6 +28,46 @@
  `);
 });
 
+const computeSumAndMed = (nums: number[]): [number, number] => {
+  let sum = 0;
+  for (let n of nums) {
+    sum += n;
+  }
+  const med = sum / nums.length;
+  return [sum, med];
+}
+
+
+/**stats?nums=1&nums=2&nums=3 -> media = 2 / somma = 6
+ */
+app.get('/stats', (req, res) => {
+  const nums: number[] = (req.query.nums as string[]).map((n) => {
+    return Number(n);
+  });
+
+  const [sum, med] = computeSumAndMed(nums);
+
+ res.send(`
+   <p> La somma è ${sum}</p>
+   <p> La media è ${med}</p>
+ `);
+});
+
+
+/**
+ POST / stats // [1,2,3]
+ {
+   sum:6 
+   med:2
+ }
+ */
+
+ app.post('stats', express.json(), (req, res) => {
+   const numbers: number[] = req.body;
+   const [sum, med] = computeSumAndMed(numbers);
+   return res.send({ sum, med });
+ });
+
  app.listen(3000, () => {
      console.log('started at http://localhost:3000');
  });

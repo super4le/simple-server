@@ -5,7 +5,6 @@ const app = express();
 let cnt = 0;
 
 
-`/?minus=2`
 app.get('/', (req, res) => {
     const minus = Number(req.query.minus);
     if (Number.isInteger(minus)) {
